@@ -1,0 +1,16 @@
+func Random(){
+    input = getLine("Chosse 1-10 : ")
+    if (input == 10){
+        write("lucky")
+    }
+    else {
+        a = 0
+        while ( a < 1000000 ){
+            write("LOL")
+            wait(1)
+        }
+    }
+
+}
+
+Random()
