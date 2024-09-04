@@ -7,6 +7,7 @@ import qualified Text.Parsec.Expr as E
 import AST
 import Lexer
 
+
 expr :: Parser Expr
 expr = E.buildExpressionParser table term
   where
@@ -25,19 +26,27 @@ ifExpr = do
     elseBody <- optionMaybe (reserved "else" >> braces (many expr))
     return $ If condition ifBody elseBody
 
+
 term :: Parser Expr
 term =  try funcCallExpr
     <|> try assignExpr
-    <|> try ifExpr        -- Ensure ifExpr is included here
+    <|> try ifExpr       
     <|> try whileExpr
     <|> try forExpr
     <|> try waitExpr
-    <|> try writeExpr
+    <|> try writeExpr  
     <|> try importExpr
+    <|> try getLineExpr 
     <|> literalExpr
     <|> varExpr
     <|> parens expr
 
+
+getLineExpr :: Parser Expr
+getLineExpr = do
+    reserved "getLine"
+    prompt <- parens expr
+    return $ GetLine prompt
 
 literalExpr :: Parser Expr
 literalExpr = Literal . VInt <$> integer
