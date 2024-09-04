@@ -20,6 +20,12 @@ data Expr
   | Wait Expr
   | If Expr [Expr] (Maybe [Expr])
   | GetLine Expr
+  | DeskList              
+  | DeskDel Expr        
+  | DeskCd Expr        
+  | DeskRename Expr Expr 
+  | DeskNewFile Expr 
+  | SaveAs Expr 
   deriving (Show)
 
 data Value
