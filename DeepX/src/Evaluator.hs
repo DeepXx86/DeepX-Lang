@@ -1,14 +1,23 @@
 module Evaluator where
 
 import Control.Monad.State
-import Control.Concurrent (threadDelay)
+import Control.Concurrent (threadDelay, forkIO)
 import qualified Data.Map as Map
 import Data.List (intercalate)
+import qualified Data.ByteString.Lazy.Char8 as LBS
+import qualified Data.ByteString.Char8 as BS
+import Control.Monad (forever)
+import System.IO (hFlush, stdout)
+import Text.Read (readMaybe)
 
 import AST
 
 type Env = Map.Map String Value
 type Eval a = StateT Env IO a
+
+
+stringToInt :: String -> Maybe Int
+stringToInt = readMaybe
 
 eval :: Expr -> Eval Value
 eval (Literal v) = return v
@@ -58,8 +67,12 @@ eval (Equals e1 e2) = do
     v2 <- eval e2
     case (v1, v2) of
         (VInt i1, VInt i2) -> return $ VInt (if i1 == i2 then 1 else 0)
+        (VString s1, VInt i2) -> case stringToInt s1 of
+            Just i1 -> return $ VInt (if i1 == i2 then 1 else 0)
+            Nothing -> error "Type mismatch: cannot compare string to integer"
         (VString s1, VString s2) -> return $ VInt (if s1 == s2 then 1 else 0)
         _ -> error "Type mismatch in equality comparison"
+
 eval (Assign name expr) = do
     value <- eval expr
     modify $ Map.insert name value
@@ -89,10 +102,10 @@ eval (Import moduleName) = do
 eval (While condition body) = do
     condValue <- eval condition
     case condValue of
-        VInt 0 -> return VVoid  -- Stop the loop if the condition is 0 (false)
+        VInt 0 -> return VVoid  
         _ -> do
             evalBlock body
-            eval (While condition body)  -- Recurse until the condition is false
+            eval (While condition body)  
 eval (For var startExpr endExpr body) = do
     startVal <- eval startExpr
     endVal <- eval endExpr
@@ -110,14 +123,24 @@ eval (Wait expr) = do
     delay <- eval expr
     case delay of
         VInt ms -> do
-            liftIO $ threadDelay (ms * 1000)  -- Convert milliseconds to microseconds
+            liftIO $ threadDelay (ms * 1000)
             return VVoid
         _ -> error "Type mismatch in wait"
 eval (If condExpr ifBody elseBody) = do
     condValue <- eval condExpr
     case condValue of
-        VInt 0 -> maybe (return VVoid) evalBlock elseBody  -- If false, execute else body
-        _ -> evalBlock ifBody  -- If true, execute if body
+        VInt 0 -> maybe (return VVoid) evalBlock elseBody 
+        _ -> evalBlock ifBody  
+
+eval (GetLine promptExpr) = do
+    promptValue <- eval promptExpr
+    case promptValue of
+        VString prompt -> do
+            liftIO $ putStr prompt
+            liftIO $ hFlush stdout 
+            input <- liftIO getLine
+            return $ VString input
+        _ -> error "Type mismatch: getLine expects a string prompt"
 
 
 evalBlock :: [Expr] -> Eval Value
@@ -128,6 +151,8 @@ showValue (VInt i) = show i
 showValue (VString s) = s
 showValue (VFunc _ _) = "<function>"
 showValue VVoid = ""
+
+
 
 runEval :: Eval a -> Env -> IO (a, Env)
 runEval ev env = runStateT ev env
