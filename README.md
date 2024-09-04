@@ -37,17 +37,16 @@ Random()
 ~~~~
 ### If / Else 😳
 ~~~~
-z = 12 
-d = 0
-if (z == 15){
-    write("Skibidi!!!!")
-}
-else {
-    while (d < 500 ){
-        write(z = ",z, "| number loop in --> ", d)
-        wait(1)
-        d = d+1
+func If_Else(){
+    write("Give me a-z")
+    Skibidi = getLine("( a - z only ): ")
+    if ( Skibidi == "z" ){
+        write("Correct")
     }
-    
+    else {
+        write("nah it", "z")
+    }
 }
+
+If_Else()
 ~~~~
