@@ -7,8 +7,10 @@ import Data.List (intercalate)
 import qualified Data.ByteString.Lazy.Char8 as LBS
 import qualified Data.ByteString.Char8 as BS
 import Control.Monad (forever)
-import System.IO (hFlush, stdout)
+import System.IO (hFlush, stdout,writeFile, withFile, IOMode(WriteMode))
 import Text.Read (readMaybe)
+import System.Directory (listDirectory, removeFile, getCurrentDirectory, renameFile, setCurrentDirectory, doesDirectoryExist)
+
 
 import AST
 
@@ -18,6 +20,15 @@ type Eval a = StateT Env IO a
 
 stringToInt :: String -> Maybe Int
 stringToInt = readMaybe
+
+saveFileToLocation :: FilePath -> String -> IO ()
+saveFileToLocation location content = do
+    dirExists <- doesDirectoryExist location
+    if dirExists
+        then writeFile (location ++ "\\newfile.txt") content
+        else do
+            currentDir <- getCurrentDirectory
+            writeFile (currentDir ++ "\\newfile.txt") content
 
 eval :: Expr -> Eval Value
 eval (Literal v) = return v
@@ -141,6 +152,55 @@ eval (GetLine promptExpr) = do
             input <- liftIO getLine
             return $ VString input
         _ -> error "Type mismatch: getLine expects a string prompt"
+
+eval DeskList = do
+    files <- liftIO $ listDirectory "."
+    liftIO $ mapM_ putStrLn files
+    return VVoid
+
+
+eval (DeskDel fileExpr) = do
+    fileName <- eval fileExpr
+    case fileName of
+        VString file -> do
+            liftIO $ removeFile file
+            return VVoid
+        _ -> error "deskdel expects a file path as a string"
+
+
+
+eval (DeskCd dirExpr) = do
+    dirName <- eval dirExpr
+    case dirName of
+        VString dir -> do
+            liftIO $ setCurrentDirectory dir
+            return VVoid
+        _ -> error "deskCd expects a directory path as a string"
+
+eval (DeskRename oldNameExpr newNameExpr) = do
+    oldName <- eval oldNameExpr
+    newName <- eval newNameExpr
+    case (oldName, newName) of
+        (VString old, VString new) -> do
+            liftIO $ renameFile old new
+            return VVoid
+        _ -> error "deskre expects two file paths as strings"
+
+eval (DeskNewFile fileNameExpr) = do
+    fileName <- eval fileNameExpr
+    case fileName of
+        VString file -> do
+            liftIO $ writeFile file "" 
+            return VVoid
+        _ -> error "deskNewFile expects a file name as a string"
+
+eval (SaveAs locationExpr) = do
+    location <- eval locationExpr
+    case location of
+        VString loc -> do
+            liftIO $ saveFileToLocation loc "Default content"
+            return VVoid
+        _ -> error "saveAs expects a file location as a string"
 
 
 evalBlock :: [Expr] -> Eval Value
