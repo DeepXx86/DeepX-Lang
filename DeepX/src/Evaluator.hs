@@ -186,13 +186,13 @@ eval (DeskRename oldNameExpr newNameExpr) = do
             return VVoid
         _ -> error "deskre expects two file paths as strings"
 
-eval (DeskNewFile fileNameExpr) = do
+eval (DeskMake fileNameExpr) = do
     fileName <- eval fileNameExpr
     case fileName of
         VString file -> do
             liftIO $ writeFile file "" 
             return VVoid
-        _ -> error "deskNewFile expects a file name as a string"
+        _ -> error "deskMake expects a file name as a string"
 
 eval (SaveAs locationExpr) = do
     location <- eval locationExpr
