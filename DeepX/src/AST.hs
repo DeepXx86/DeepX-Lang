@@ -24,7 +24,7 @@ data Expr
   | DeskDel Expr        
   | DeskCd Expr        
   | DeskRename Expr Expr 
-  | DeskNewFile Expr 
+  | DeskMake Expr 
   | SaveAs Expr 
   deriving (Show)
 
