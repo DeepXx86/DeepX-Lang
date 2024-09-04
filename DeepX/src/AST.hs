@@ -18,7 +18,8 @@ data Expr
   | While Expr [Expr]
   | For String Expr Expr [Expr]
   | Wait Expr
-  | If Expr [Expr] (Maybe [Expr])  -- Added If-Else
+  | If Expr [Expr] (Maybe [Expr])
+  | GetLine Expr
   deriving (Show)
 
 data Value
@@ -31,5 +32,5 @@ data Value
 instance Eq Value where
   (VInt a) == (VInt b) = a == b
   (VString a) == (VString b) = a == b
-  (VFunc params1 _) == (VFunc params2 _) = params1 == params2  -- Compare only parameters for functions
+  (VFunc params1 _) == (VFunc params2 _) = params1 == params2 
   _ == _ = False
