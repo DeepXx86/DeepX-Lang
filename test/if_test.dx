@@ -1,0 +1,13 @@
+a = 9 // if else test
+b = 0
+if (a == 15){
+    write("Skibidi!!!!")
+}
+else {
+    while (b < 500 ){
+        write("nah not '15' a = ",a, "| number loop in --> ", b)
+        wait(1)
+        b = b+1
+    }
+    
+}

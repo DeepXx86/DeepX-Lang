@@ -1,0 +1,8 @@
+func Wait_Test(){
+    while (0 < 1000){
+        write("Skibidi!!")
+        wait(1000) //(1000 milliseconds)
+    }
+}
+
+Wait_Test()

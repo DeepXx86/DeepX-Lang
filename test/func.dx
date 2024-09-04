@@ -1,0 +1,9 @@
+a = 9
+func Skibidi(){
+    b = 0
+    while (b < 500 ){
+        write(b)
+        b = b+1
+    }
+}
+Skibidi() //load function
