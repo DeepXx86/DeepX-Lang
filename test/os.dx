@@ -1,0 +1,15 @@
+func MakeNewFile(){
+    write("Do you want to make new file??")
+    anwer = getLine("(yes/no): ")
+    if (anwer == "yes"){
+        deskMake("test.dx")
+    }
+    else {
+        while ( 0 < 1000000000000) {
+            write("Why >:(" )
+            wait(1)
+        }
+    }
+}
+
+MakeNewFile()
