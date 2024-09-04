@@ -26,6 +26,52 @@ ifExpr = do
     elseBody <- optionMaybe (reserved "else" >> braces (many expr))
     return $ If condition ifBody elseBody
 
+deskExpr :: Parser Expr
+deskExpr = try deskList
+     <|> try deskDel
+     <|> try deskRename
+     <|> try deskMake
+     <|> try saveAs
+     <|> deskCd
+
+saveAs :: Parser Expr
+saveAs = do
+    reserved "saveAs"
+    location <- parens expr
+    return $ SaveAs location
+
+deskList :: Parser Expr
+deskList = do
+    reserved "deskList"
+    return DeskList
+
+deskDel :: Parser Expr
+deskDel = do
+    reserved "deskdel"
+    file <- parens expr
+    return $ DeskDel file
+
+deskRename :: Parser Expr
+deskRename = do
+    reserved "deskre"
+    parens $ do
+        oldName <- expr
+        comma
+        newName <- expr
+        return $ DeskRename oldName newName
+
+deskCd :: Parser Expr
+deskCd = do
+    reserved "deskCd"
+    dir <- parens expr
+    return $ DeskCd dir
+deskMake :: Parser Expr
+deskMake = do
+    reserved "deskMake"
+    fileName <- parens expr
+    return $ DeskMake fileName
+
+
 
 term :: Parser Expr
 term =  try funcCallExpr
@@ -40,6 +86,7 @@ term =  try funcCallExpr
     <|> literalExpr
     <|> varExpr
     <|> parens expr
+    <|> try deskExpr
 
 
 getLineExpr :: Parser Expr
