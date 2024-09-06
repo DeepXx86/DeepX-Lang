@@ -1,3 +1,5 @@
+![DALL·E 2024-09-06 19 47 41 - A 2D logo design for the DeepX programming language with a Gen Z-inspired aesthetic  The theme should be a neon blend of black, blue, and purple, with](https://github.com/user-attachments/assets/2cd9b8da-a868-4a02-a668-48471c09d51b)
+
 ## DeepX-Lang is the first programming language I created 😳😅 ( Project is not finished. 💀🤫 )
 
 #This programming language is simple, and I don't think it can be used in real projects. 🤓
