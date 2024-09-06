@@ -10,12 +10,13 @@ lexer = Token.makeTokenParser style
   where
     style = emptyDef
       { Token.commentLine = "//"
-      , Token.reservedNames = ["if", "else", "while", "for", "func", "var", "import", "write", "No cap", "cap", "wait", "getLine", "deskRe", "deskDel", "deskList", "deskCd","deskMake"]
+      , Token.reservedNames = ["if", "else", "while", "for", "func", "var", "import", "write", "No cap", "cap", "wait", "getLine", "deskRe", "deskDel", "deskList", "deskCd","deskMake","get", "discord"]
       , Token.reservedOpNames = ["+", "-", "*", "/", "=", "<", ">", "==", "=>"]
+      , Token.identStart = letter
+       , Token.opStart = Token.opLetter style
+      , Token.identLetter = alphaNum <|> char '_'
+      , Token.opLetter = oneOf ":!#$%&*+./<=>?@\\^|-~"
       }
-
-
-
 
 integer :: Parser Int
 integer = fromIntegral <$> Token.integer lexer
