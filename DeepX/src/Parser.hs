@@ -3,6 +3,9 @@ module Parser where
 import Text.Parsec
 import Text.Parsec.String (Parser)
 import qualified Text.Parsec.Expr as E
+import qualified Text.Parsec.Token as Tok
+import Text.Parsec.Language (emptyDef)
+
 
 import AST
 import Lexer
@@ -60,6 +63,7 @@ deskRename = do
         newName <- expr
         return $ DeskRename oldName newName
 
+
 deskCd :: Parser Expr
 deskCd = do
     reserved "deskCd"
@@ -71,10 +75,24 @@ deskMake = do
     fileName <- parens expr
     return $ DeskMake fileName
 
+getExpr :: Parser Expr
+getExpr = do
+    reserved "get"
+    reserved "discord"
+    return $ Get "discord"
+
+botDiscord :: Parser Expr
+botDiscord = do
+    reserved "func"
+    reserved "BotDiscord"
+    body <- braces $ many expr
+    return $ BotDiscord body
 
 
 term :: Parser Expr
 term =  try funcCallExpr
+    <|> try botDiscord
+    <|> try getExpr
     <|> try assignExpr
     <|> try ifExpr       
     <|> try whileExpr
@@ -107,6 +125,7 @@ assignExpr = do
     var <- identifier
     reservedOp "="
     Assign var <$> expr
+
 
 funcCallExpr :: Parser Expr
 funcCallExpr = do
