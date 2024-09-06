@@ -26,6 +26,9 @@ data Expr
   | DeskRename Expr Expr 
   | DeskMake Expr 
   | SaveAs Expr 
+  | BotDiscord [Expr]
+  | Get String 
+  | Depth FilePath
   deriving (Show)
 
 data Value
