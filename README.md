@@ -1,5 +1,4 @@
 
-![DeepX](https://github.com/user-attachments/assets/1a581f30-e369-47cf-aa20-c5f189a38f86)
 
 ## DeepX-Lang is the first programming language I created 😳😅 ( Project is not finished. 💀🤫 )
 
