@@ -3,6 +3,7 @@
 ## DeepX-Lang is the first programming language I created 😳😅 ( Project is not finished. 💀🤫 )
 
 #This programming language is simple, and I don't think it can be used in real projects. 🤓
+# inspiration --> (javascript, lua, python, haskell, go-lang, uwupp)
 
 # Examples ->
 
