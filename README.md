@@ -4,7 +4,7 @@
 
 -This programming language is simple, and I don't think it can be used in real projects. 🤓
 
--inspiration --> (javascript, lua, python, haskell, go-lang, uwupp)
+-inspiration --> (javascript, lua, python, haskell, go-lang, uwupp,z#)
 
 # Examples ->
 
