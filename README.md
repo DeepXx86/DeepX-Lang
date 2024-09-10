@@ -56,7 +56,7 @@ If_Else()
 ~~~~
 
 ## Creating Your Own Programming Language Using My Source Code
-- Install Stack & Haskell
+- Install Stack & Haskell [Install Stack & Haskell](https://www.haskell.org/downloads/)
 - Create a new project --> stack new DeepX && cd DeepX
 - Update stack.yaml --> resolver: lts-18.28
 - Delete the app folder & Create a new Main.hs file in the src directory
