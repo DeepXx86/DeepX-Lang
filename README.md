@@ -5,7 +5,10 @@
 -This programming language is simple, and I don't think it can be used in real projects. 🤓
 
 -inspiration --> (javascript, lua, python, haskell, go-lang, uwupp,z#)
+
 [Examples](https://github.com/DeepXx86/DeepX-Lang/blob/main/README.md#L10)
+
+[Creating Your Own Programming Language](https://github.com/DeepXx86/DeepX-Lang/blob/main/README.md#L62)
 
 # Examples ->
 
