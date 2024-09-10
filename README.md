@@ -60,3 +60,16 @@ If_Else()
 - Create a new project --> stack new DeepX && cd DeepX
 - Update stack.yaml --> resolver: lts-18.28
 - Delete the app folder & Create a new Main.hs file in the src directory
+Tree :
+~~~~
+Deepx/
+├── src/
+│   ├── AST.hs
+│   ├── Lexer.hs
+│   ├── Parser.hs
+│   ├── Evaluator.hs
+│   └── Main.hs
+├── package.yaml
+└── stack.yaml
+~~~~
+
