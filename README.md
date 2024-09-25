@@ -73,4 +73,5 @@ Deepx/
 ├── package.yaml
 └── stack.yaml
 ~~~~
+![Screenshot 2024-09-25 180550](https://github.com/user-attachments/assets/74e91a32-cdcd-4f84-96ef-852d98b7b2b6)
 
